@@ -3,13 +3,42 @@ from django.shortcuts import render
 # myapp/views.py
 
 from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from .forms import RegistrationForm1, RegistrationForm2
 
 def index(request):
     return HttpResponse("Hello, world!")
 
-from django.urls import path
-from . import views
+def login_view(request):
+    # return HttpResponse("Hello, world2")
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+    return render(request, 'login.html')
 
-urlpatterns = [
-    path('', views.index, name='index'),
-]
+def register_page_1(request):
+    form = RegistrationForm1()
+    if request.method == 'POST':
+        form = RegistrationForm1(request.POST)
+        # Validate and save form data
+        
+        return redirect('register_page_2')  
+
+    return render(request, 'register1.html', {'form': form})
+
+def register_page_2(request):
+    form = RegistrationForm2()
+    if request.method == 'POST':
+        form = RegistrationForm2(request.POST)
+        # Validate and save password
+        
+        return redirect('home')
+
+    return render(request, 'register2.html', {'form': form})
+
+
