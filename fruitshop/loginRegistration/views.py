@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from .forms import RegistrationForm1, RegistrationForm2
+from .forms import RegistrationForm1, RegistrationForm2, ForgotPassword
 
 def index(request):
     return HttpResponse("Hello, world!")
@@ -29,7 +29,7 @@ def register_page_1(request):
         
         return redirect('register_page_2')  
 
-    return render(request, 'register1.html', {'form': form})
+    return render(request, 'formtemplate.html', {'form': form})
 
 def register_page_2(request):
     form = RegistrationForm2()
@@ -39,6 +39,16 @@ def register_page_2(request):
         
         return redirect('home')
 
-    return render(request, 'register2.html', {'form': form})
+    return render(request, 'formtemplate.html', {'form': form})
+
+def forgot_password(request):
+    form = ForgotPassword()
+    if request.method == 'POST':
+        form = ForgotPassword(request.POST)
+        # Validate and save password
+        
+        return redirect('home')
+
+    return render(request, 'formtemplate.html', {'form': form})
 
 
