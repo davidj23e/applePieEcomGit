@@ -35,9 +35,13 @@ def register_page_2(request):
     form = RegistrationForm2()
     if request.method == 'POST':
         form = RegistrationForm2(request.POST)
-        # Validate and save password
-        
-        return redirect('home')
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            # Save the form data
+            return redirect('home')
+            # Validate and save password
+    else:
+        form = RegistrationForm2()
 
     return render(request, 'formtemplate.html', {'form': form})
 
@@ -45,9 +49,13 @@ def forgot_password(request):
     form = ForgotPassword()
     if request.method == 'POST':
         form = ForgotPassword(request.POST)
-        # Validate and save password
-        
-        return redirect('home')
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            # Save the form data
+            return redirect('home')
+            # Validate and save password
+    else:
+        form = ForgotPassword()
 
     return render(request, 'formtemplate.html', {'form': form})
 
