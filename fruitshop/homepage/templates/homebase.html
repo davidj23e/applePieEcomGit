@@ -1,0 +1,57 @@
+{% load static %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <a class="navbar-brand" href="#">App Name</a>
+  
+    <div class="collapse navbar-collapse">
+  
+      <ul class="navbar-nav mr-auto">
+        <!-- left links -->
+      </ul>
+  
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <span class="navbar-text">
+            Welcome {{ request.user.username }}!
+          </span>  
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Settings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Logout</a>
+        </li>
+      </ul>
+  
+    </div>
+  
+  </nav>
+
+<!-- Body displaying inventory of fruitshop -->
+<div class="col-md-7 offset-md-2 p-5 bg-white shadow-lg rounded">
+  <div class="container">
+    <div class="row">
+      {% for fruit in fruits %}
+        <div class="col-md-4">
+          <div class="card">
+            <img src="{{ fruit.image.url }}" class="card-img-top" >
+            <div class="card-body">
+              <h5 class="card-title">{{ fruit.item_name }}</h5>
+              <p class="card-text">{{ fruit.tagline }}</p>
+              <p class="card-text">Price: {{ fruit.item_price }}</p>
+              <a href="#" class="btn btn-primary">Add to Cart</a>
+            </div>
+          </div>
+        </div>
+  
+        {% if forloop.counter|divisibleby:3 %}
+          </div><br><div class="row">
+        {% endif %}
+  
+      {% endfor %}
+    </div>
+  </div>
+</div>

@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <div class="col-md-3 offset-md-4 p-5 bg-white shadow-lg rounded">
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
     {# Render form fields #}
@@ -20,6 +20,16 @@
         {{ form.non_field_errors }}
       </div>
     {% endif %}
-    <input class="btn btn-lg btn-primary btn-block" type="submit" value="Next">
+
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+          {{ message }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <input class="btn btn-lg btn-primary btn-block" type="submit" value="{{buttonName}}">
   </form>
 </div>

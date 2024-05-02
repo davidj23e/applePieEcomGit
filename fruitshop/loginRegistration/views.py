@@ -71,7 +71,7 @@ def forgot_password_email(request):
             # Save the form data
             return redirect('forgot_password')
             # Validate and save password
-    return render(request, 'formtemplate.html', {'form': form})
+    return render(request, 'formtemplate.html', {'form': form, 'buttonName' : 'Next'})
     
 def forgot_password(request):
     form = ForgotPassword(request=request)
@@ -83,6 +83,6 @@ def forgot_password(request):
             return redirect('home')
             # Validate and save password
 
-    return render(request, 'formtemplate.html', {'form': form})
+    return render(request, 'formtemplate.html', {'form': form, 'buttonName' : 'Submit'})
 
 
