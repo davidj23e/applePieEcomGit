@@ -20,6 +20,8 @@ def login_view(request):
             cleaned_data = form.cleaned_data
             email = cleaned_data['email']
             password = cleaned_data['password']
+            request.session['profile.user'] = RegistrationModel.objects.get(email=email).username
+            request.session['profile.email'] = RegistrationModel.objects.get(email=email).email
             return redirect('homepage')
     return render(request, 'login.html', {'form': form})
 
@@ -85,4 +87,8 @@ def forgot_password(request):
 
     return render(request, 'formtemplate.html', {'form': form, 'buttonName' : 'Submit'})
 
+def logout(request):
+    request.session.flush()
+    request.session.delete()
+    return redirect('homepage')
 

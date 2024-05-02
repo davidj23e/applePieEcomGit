@@ -7,7 +7,11 @@ from .models import FruitInventory
 # Create your views here.
 def homepage(request):
     fruits = FruitInventory.objects.all()
-    return render(request, 'homebase.html', {'fruits': fruits})
+    if request.session.has_key('profile.user'):
+        user = request.session['profile.user']
+    else:
+        user = None
+    return render(request, 'homebase.html', {'fruits': fruits, 'username': user})
     # return HttpResponse("HOMEPAGE PLACEHOLDER")
     
 
