@@ -10,3 +10,11 @@ class FruitInventory(models.Model):
 
     def __str__(self):
         return self.item_name
+    
+class UserCart(models.Model):
+    email = models.EmailField()
+    item_name = models.CharField(max_length=200)
+    quantity = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.item_name} - {self.email}"

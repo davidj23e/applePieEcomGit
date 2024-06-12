@@ -8,4 +8,5 @@ urlpatterns = [
     path('addfruit', views.add_fruit, name='add_fruit'),
     path('profile_settings', views.profile_settings, name='profile_settings'),
     path('load_content', views.load_content, name='load_content'),
+    path('add_to_cart', views.add_to_cart, name='add_to_cart'),
 ]
