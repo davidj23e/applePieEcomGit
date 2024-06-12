@@ -9,11 +9,21 @@ def homepage(request):
     fruits = FruitInventory.objects.all()
     if request.session.has_key('profile.user'):
         user = request.session['profile.user']
-        totalOrders = UserCart.objects.filter(email=request.session['profile.email']).count()
+        usercart = UserCart.objects.filter(email=request.session['profile.email'])
+        totalOrders = usercart.count()
+        finalCart = []
+        for item in usercart:
+            finalCartItem = {'name': item.item_name}
+            for fruit in fruits:
+                if item.item_name == fruit.item_name:
+                    finalCartItem['quantity'] = item.quantity
+                    finalCartItem['price'] = fruit.item_price
+                    finalCartItem['total'] = item.quantity * fruit.item_price
+                    finalCart.append(finalCartItem)
+        print(finalCart)
     else:
         user = None
-    return render(request, 'homebase.html', {'fruits': fruits, 'username': user, 'totalOrders': totalOrders})
-    # return HttpResponse("HOMEPAGE PLACEHOLDER")
+    return render(request, 'homebase.html', {'fruits': fruits, 'username': user, 'cart': finalCart, 'totalOrders': totalOrders})
     
 
 def add_fruit(request):
@@ -42,6 +52,21 @@ def add_to_cart(request):
             order.quantity += 1
             order.save()
             
+    return redirect('homepage')
+
+def remove_from_cart(request):
+    if request.method == 'POST':
+        item_name = request.POST.get('parameter')
+        print(item_name)
+        order = UserCart.objects.get(
+            email=request.session['profile.email'],
+            item_name=item_name,
+            )
+        if order.quantity == 1:
+            order.delete()
+        else:
+            order.quantity -= 1
+            order.save()
     return redirect('homepage')
     
 
