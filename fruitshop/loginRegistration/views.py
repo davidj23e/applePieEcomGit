@@ -13,6 +13,8 @@ def index(request):
 
 def login_view(request):
     # return HttpResponse("Hello, world2")
+    if request.session.has_key('profile.user'):
+        return redirect('homepage')
     form = LoginForm()
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -37,7 +39,7 @@ def register_page_1(request):
             request.session['phone'] = cleaned_data['phone']
             return redirect('register_page_2')  
 
-    return render(request, 'formtemplate.html', {'form': form})
+    return render(request, 'formtemplate.html', {'form': form, 'buttonName' : 'Next'})
 
 def register_page_2(request):
     print("Data", request.session['username'], request.session['email'], request.session['phone'])
@@ -61,7 +63,7 @@ def register_page_2(request):
     else:
         form = RegistrationForm2()
 
-    return render(request, 'formtemplate.html', {'form': form})
+    return render(request, 'formtemplate.html', {'form': form, 'buttonName' : 'Submit'})
 
 def forgot_password_email(request):
     form = ForgotPasswordEmail()

@@ -26,3 +26,22 @@ def add_fruit(request):
             return redirect('add_fruit')
             
     return render(request, 'formtemplate.html', {'form': form, 'buttonName' : buttonName})
+
+def profile_settings(request):
+    if request.session.has_key('profile.user'):
+        user = request.session['profile.user']
+    else:
+        user = None
+    return render(request, 'profile_settings.html', {'username': user})
+
+def load_content(request):
+    target = request.GET.get('target')
+    if target == 'content1':
+        content = '<h1>Content 1</h1><p>This is the content for Content 1.</p>'
+    elif target == 'content2':
+        content = '<h1>Content 2</h1><p>This is the content for Content 2.</p>'
+    elif target == 'content3':
+        content = '<h1>Content 3</h1><p>{{ username }}</p>'
+    else:
+        content = '<p>No content found.</p>'
+    return render(request, 'content.html', {'content': content})

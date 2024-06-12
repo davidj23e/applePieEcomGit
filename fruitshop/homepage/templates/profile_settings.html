@@ -1,0 +1,46 @@
+{% load static %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+{% include 'navbar.html' %}
+
+<body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2 offset-md-2 p-5 bg-white shadow-lg rounded">
+          <!-- Sidebar -->
+          <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action" data-target="content1">Addresses</a>
+            <a href="#" class="list-group-item list-group-item-action" data-target="content2">Orders</a>
+            <a href="#" class="list-group-item list-group-item-action" data-target="content3">Change Password</a>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <!-- Content Area -->
+          <div id="content-area"></div>
+        </div>
+      </div>
+    </div>
+  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('.list-group-item').click(function() {
+          var target = $(this).data('target');
+          loadContent(target);
+        });
+      });
+  
+      function loadContent(target) {
+        $.ajax({
+          url: '{% url "forgot_password_email" %}',
+          data: {
+            'target': target
+          },
+          success: function(data) {
+            $('#content-area').html(data);
+          }
+        });
+      }
+    </script>
+  </body>

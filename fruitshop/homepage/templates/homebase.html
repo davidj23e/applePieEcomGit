@@ -2,42 +2,7 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-    <a class="navbar-brand" href="#">FruitShop</a>
-  
-    <div class="collapse navbar-collapse">
-  
-      <ul class="navbar-nav mr-auto">
-        <!-- left links -->
-      </ul>
-  
-      <ul class="navbar-nav">
-        {% if username %}
-        <li class="nav-item">
-          <span class="navbar-text">
-            Welcome {{ username }}!
-          </span>  
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Settings</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-        </li>
-        {% endif %}
-        {% if not username %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'login_view' %}">Log In</a>
-          </li>
-        {% endif %}
-
-      </ul>
-  
-    </div>
-  
-  </nav>
-
+{% include 'navbar.html' %}
 <!-- Body displaying inventory of fruitshop -->
 <div class="col-md-7 offset-md-2 p-5 bg-white shadow-lg rounded">
   <div class="container">
