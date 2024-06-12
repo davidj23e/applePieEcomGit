@@ -78,14 +78,18 @@ class ForgotPassword(forms.Form):
         super(ForgotPassword, self).__init__(*args, **kwargs)
     
     def clean(self):
-        email = self.request.session.get('email')
+        email = self.request.session.get('profile.email')
         cleaned_data = super().clean()
         old_password = cleaned_data.get("old_password")
         new_password1 = cleaned_data.get("new_password1")
         new_password2 = cleaned_data.get("new_password2")
         
-        if old_password not in RegistrationModel.objects.filter(email=email).values('password'):
+        try:
+            temp = RegistrationModel.objects.get(email=email).password
+        except RegistrationModel.DoesNotExist:
             raise forms.ValidationError("The old password is incorrect")
+        # if old_password not in RegistrationModel.objects.get(email=email).password:
+        #     raise forms.ValidationError("The old password is incorrect")
 
         if len(new_password1) < 8:
             raise ValidationError("Password must be at least 8 characters long")

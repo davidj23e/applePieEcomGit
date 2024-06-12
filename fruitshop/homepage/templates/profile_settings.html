@@ -12,7 +12,7 @@
           <div class="list-group">
             <a href="#" class="list-group-item list-group-item-action" data-target="content1">Addresses</a>
             <a href="#" class="list-group-item list-group-item-action" data-target="content2">Orders</a>
-            <a href="#" class="list-group-item list-group-item-action" data-target="content3">Change Password</a>
+            <a href="{% url "forgot_password" %}" class="list-group-item list-group-item-action" data-target="content3">Change Password</a>
           </div>
         </div>
         <div class="col-md-8">
@@ -33,7 +33,7 @@
   
       function loadContent(target) {
         $.ajax({
-          url: '{% url "forgot_password_email" %}',
+          url: '{% url "forgot_password" %}',
           data: {
             'target': target
           },

@@ -13,7 +13,7 @@ def index(request):
 
 def login_view(request):
     # return HttpResponse("Hello, world2")
-    if request.session.has_key('profile.user'):
+    if request.session.has_key('profile_user'):
         return redirect('homepage')
     form = LoginForm()
     if request.method == 'POST':
@@ -22,7 +22,7 @@ def login_view(request):
             cleaned_data = form.cleaned_data
             email = cleaned_data['email']
             password = cleaned_data['password']
-            request.session['profile.user'] = RegistrationModel.objects.get(email=email).username
+            request.session['profile_user'] = RegistrationModel.objects.get(email=email).username
             request.session['profile.email'] = RegistrationModel.objects.get(email=email).email
             return redirect('homepage')
     return render(request, 'login.html', {'form': form})
@@ -83,9 +83,15 @@ def forgot_password(request):
         form = ForgotPassword(request.POST, request=request)
         if form.is_valid():
             cleaned_data = form.cleaned_data
+            user = RegistrationModel.objects.get(email=request.session['profile.email'])
+            new_password = cleaned_data['new_password1']
+            user.password=new_password
+            user.save()
             # Save the form data
-            return redirect('home')
+            return redirect('homepage')
             # Validate and save password
+        else:
+            print("Error Invalid form")
 
     return render(request, 'formtemplate.html', {'form': form, 'buttonName' : 'Submit'})
 

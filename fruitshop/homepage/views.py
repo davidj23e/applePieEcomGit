@@ -7,11 +7,12 @@ from .models import FruitInventory, UserCart
 # Create your views here.
 def homepage(request):
     fruits = FruitInventory.objects.all()
-    if request.session.has_key('profile.user'):
-        user = request.session['profile.user']
+    if request.session.has_key('profile_user'):
+        user = request.session['profile_user']
         usercart = UserCart.objects.filter(email=request.session['profile.email'])
         totalOrders = usercart.count()
         finalCart = []
+        cartTotal = 0
         for item in usercart:
             finalCartItem = {'name': item.item_name}
             for fruit in fruits:
@@ -20,11 +21,18 @@ def homepage(request):
                     finalCartItem['price'] = fruit.item_price
                     finalCartItem['total'] = item.quantity * fruit.item_price
                     finalCart.append(finalCartItem)
+                    cartTotal += finalCartItem['total']
         print(finalCart)
     else:
-        user = None
-    return render(request, 'homebase.html', {'fruits': fruits, 'username': user, 'cart': finalCart, 'totalOrders': totalOrders})
-    
+        finalCart = totalOrders = cartTotal = user = None
+    return render(request, 'homebase.html',
+                  {'fruits': fruits,
+                   'username': user,
+                   'cart': finalCart,
+                   'totalOrders': totalOrders,
+                   'cartTotal': cartTotal,
+                   }
+                  )
 
 def add_fruit(request):
     form = FruitInventoryForm()
@@ -71,8 +79,8 @@ def remove_from_cart(request):
     
 
 def profile_settings(request):
-    if request.session.has_key('profile.user'):
-        user = request.session['profile.user']
+    if request.session.has_key('profile_user'):
+        user = request.session['profile_user']
     else:
         user = None
     return render(request, 'profile_settings.html', {'username': user})
